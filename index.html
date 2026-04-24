@@ -644,7 +644,7 @@
       border-radius: 24px;
       padding: 7px;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 4px;
       background: rgba(255,255,255,.88);
       border: 1px solid rgba(255,255,255,.95);
@@ -1052,6 +1052,16 @@
       <section id="savedList"></section>
     </main>
 
+    <main id="insightPage" class="page">
+      <div class="section-head">
+        <div>
+          <h3>인사이트</h3>
+          <p>브런치, 티스토리, 네이버 블로그 등 누군가의 해석·칼럼만 모아 보는 공간입니다.</p>
+        </div>
+      </div>
+      <section id="insightList"></section>
+    </main>
+
     <main id="knowledgePage" class="page">
       <div class="section-head">
         <div>
@@ -1315,6 +1325,7 @@
   <nav class="tabbar" aria-label="하단 메뉴">
     <button class="tab active" data-page="homePage"><span>⌂</span>홈</button>
     <button class="tab" data-page="allPage"><span>▤</span>소식</button>
+    <button class="tab" data-page="insightPage"><span>✎</span>인사이트</button>
     <button class="tab" data-page="knowledgePage"><span>◇</span>지식</button>
     <button class="tab" data-page="savedPage"><span>★</span>저장함</button>
     <button class="tab" data-page="addPage"><span>＋</span>추가</button>
@@ -1523,6 +1534,19 @@
       return "우리 회사 업무 기준에 반영할 내용이 있는지 확인하세요.";
     }
 
+    function isInsightSource(item) {
+      const haystack = `${item.source || ""} ${item.link || ""}`.toLowerCase();
+      const insightKeywords = [
+        "브런치", "brunch.co.kr",
+        "티스토리", "tistory.com",
+        "네이버 블로그", "blog.naver.com",
+        "velog.io",
+        "워드프레스", "wordpress.com",
+        "medium.com", "미디엄"
+      ];
+      return insightKeywords.some(keyword => haystack.includes(keyword));
+    }
+
     function filteredItems(items, includeRead = true) {
       const query = state.search.trim().toLowerCase();
 
@@ -1596,8 +1620,12 @@
       $("#savedCount").textContent = saved;
       $("#totalCount").textContent = state.items.length;
 
-      renderList("#homeList", state.items, false, "안 읽은 소식이 없습니다.", "새 소식을 불러오거나 전체 소식에서 다시 확인해 주세요.");
-      renderList("#allList", state.items, true, "저장된 소식이 없습니다.", "새 소식을 불러오거나 직접 추가해 주세요.");
+      const officialItems = state.items.filter(item => !isInsightSource(item));
+      const insightItems = state.items.filter(item => isInsightSource(item));
+
+      renderList("#homeList", officialItems, false, "안 읽은 소식이 없습니다.", "새 소식을 불러오거나 전체 소식에서 다시 확인해 주세요.");
+      renderList("#allList", officialItems, true, "표시할 소식이 없습니다.", "새 소식을 불러오거나 직접 추가해 주세요.");
+      renderList("#insightList", insightItems, true, "표시할 인사이트가 없습니다.", "새 소식을 불러오면 브런치·블로그 글이 자동으로 모입니다.");
       renderList("#savedList", state.items.filter(item => item.saved), true, "저장한 소식이 없습니다.", "중요한 소식의 별표를 눌러 저장해 주세요.");
     }
 
