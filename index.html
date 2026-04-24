@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0F3A75" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="인사서랍" />
+  <meta name="description" content="인사담당자를 위한 HR 뉴스·노무 이슈 브리핑 웹앱" />
+
+  <title>인사서랍</title>
+
+  <!-- 앱 아이콘 -->
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpvcmcpc2/image/upload/v1776997573/ChatGPT_Image_2026%EB%85%84_4%EC%9B%94_24%EC%9D%BC_%EC%98%A4%EC%A0%84_11_25_54_o1v3jg.png" />
+  <link rel="apple-touch-icon" href="https://res.cloudinary.com/dpvcmcpc2/image/upload/v1776997573/ChatGPT_Image_2026%EB%85%84_4%EC%9B%94_24%EC%9D%BC_%EC%98%A4%EC%A0%84_11_25_54_o1v3jg.png" />
+
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --paper: #ffffff;
+      --ink: #152033;
+      --muted: #6f7b8d;
+      --soft: #e9eef6;
+      --soft2: #f7f9fc;
+      --line: #e1e8f2;
+      --blue: #1769e0;
+      --blue2: #0f3a75;
+      --sky: #eaf3ff;
+      --mint: #e8f8f0;
+      --green: #169d61;
+      --yellow: #fff6dc;
+      --orange: #db7b00;
+      --red: #e64b4b;
+      --shadow: 0 18px 45px rgba(28, 55, 90, .10);
+      --shadow2: 0 8px 24px rgba(28, 55, 90, .08);
+      --radius: 24px;
+      --safe-bottom: env(safe-area-inset-bottom);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(23,105,224,.13), transparent 32%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 54%, #eef3f9 100%);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+    }
+
+    body {
+      overscroll-behavior-y: contain;
+    }
+
+    button, input, textarea, select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .app {
+      width: min(100%, 520px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 18px 16px calc(94px + var(--safe-bottom));
+      position: relative;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 2px 12px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .app-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(15, 58, 117, .16);
+      background: white;
+      flex: 0 0 auto;
+    }
+
+    .app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      color: #102443;
+    }
+
+    .brand p {
+      margin: 5px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: -0.02em;
+    }
+
+    .icon-btn {
+      width: 43px;
+      height: 43px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.82);
+      box-shadow: var(--shadow2);
+      color: var(--blue2);
+      border: 1px solid rgba(255,255,255,.8);
+      flex: 0 0 auto;
+    }
+
+    .hero {
+      margin-top: 8px;
+      padding: 22px 20px;
+      border-radius: 30px;
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.17), transparent 38%),
+        linear-gradient(135deg, #0f3a75 0%, #1769e0 58%, #56a1ff 100%);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -38px;
+      width: 140px;
+      height: 140px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.17);
+      margin-bottom: 12px;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: 25px;
+      line-height: 1.28;
+      letter-spacing: -0.055em;
+      word-break: keep-all;
+    }
+
+    .hero p {
+      margin: 11px 0 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(255,255,255,.85);
+      word-break: keep-all;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 9px;
+      margin-top: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .primary-btn, .secondary-btn {
+      height: 44px;
+      border-radius: 16px;
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .primary-btn {
+      background: white;
+      color: var(--blue2);
+      box-shadow: 0 9px 22px rgba(0,0,0,.10);
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,.16);
+      color: white;
+      border: 1px solid rgba(255,255,255,.24);
+    }
+
+    .search-wrap {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(255,255,255,.78);
+      border-radius: 22px;
+      box-shadow: var(--shadow2);
+    }
+
+    .search-wrap span {
+      font-size: 18px;
+      color: var(--blue);
+    }
+
+    .search-wrap input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+      font-size: 15px;
+      letter-spacing: -0.03em;
+    }
+
+    .search-wrap input::placeholder {
+      color: #9aa7b7;
+    }
+
+    .quick-row {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    .quick-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .topic-row {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    .topic-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .topic-pill {
+      flex: 0 0 auto;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.84);
+      border: 1px solid var(--line);
+      color: #314158;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .chip {
+      flex: 0 0 auto;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.84);
+      border: 1px solid var(--line);
+      color: #314158;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .chip.active {
+      background: var(--blue2);
+      color: white;
+      border-color: var(--blue2);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 23px 2px 12px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.045em;
+    }
+
+    .section-head p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: -0.02em;
+    }
+
+    .section-head button {
+      background: transparent;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      padding: 6px 2px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,.84);
+      border: 1px solid rgba(255,255,255,.86);
+      border-radius: 20px;
+      padding: 13px 12px;
+      box-shadow: var(--shadow2);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 22px;
+      letter-spacing: -0.04em;
+      color: #102443;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 3px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .drawer-card {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow2);
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .drawer-card.unread::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 18px;
+      width: 4px;
+      height: 42px;
+      border-radius: 999px;
+      background: var(--blue);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: var(--soft2);
+      color: #46566c;
+      border: 1px solid var(--line);
+    }
+
+    .badge.high {
+      background: #fff0f0;
+      color: var(--red);
+      border-color: #ffd9d9;
+    }
+
+    .badge.mid {
+      background: var(--yellow);
+      color: var(--orange);
+      border-color: #ffe7ad;
+    }
+
+    .badge.low {
+      background: var(--mint);
+      color: var(--green);
+      border-color: #cdeedc;
+    }
+
+    .save-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: var(--soft2);
+      color: #9aa7b7;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      font-size: 18px;
+    }
+
+    .save-btn.saved {
+      background: #fff5da;
+      color: #d99500;
+      border-color: #ffe2a1;
+    }
+
+    .drawer-card h4 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.38;
+      letter-spacing: -0.045em;
+      word-break: keep-all;
+      color: #13243d;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: -0.02em;
+    }
+
+    .summary {
+      margin: 12px 0 0;
+      color: #3b485c;
+      font-size: 14px;
+      line-height: 1.62;
+      letter-spacing: -0.03em;
+      word-break: keep-all;
+    }
+
+    .check-box {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 18px;
+      background: #f6f9fd;
+      border: 1px solid var(--line);
+    }
+
+    .check-box strong {
+      display: block;
+      color: var(--blue2);
+      font-size: 12px;
+      letter-spacing: -0.02em;
+      margin-bottom: 5px;
+    }
+
+    .check-box p {
+      margin: 0;
+      color: #4b596e;
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: -0.03em;
+      word-break: keep-all;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .card-actions button, .card-actions a {
+      height: 42px;
+      border-radius: 15px;
+      background: #f3f6fb;
+      color: #30425c;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+    }
+
+    .card-actions .open-link {
+      background: var(--blue2);
+      color: white;
+      border-color: var(--blue2);
+    }
+
+    .empty {
+      padding: 34px 20px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.84);
+      border: 1px dashed #cbd7e6;
+      text-align: center;
+      color: var(--muted);
+      box-shadow: var(--shadow2);
+    }
+
+    .empty b {
+      display: block;
+      color: #26364f;
+      margin-bottom: 7px;
+      font-size: 16px;
+    }
+
+    .source-panel {
+      padding: 16px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(255,255,255,.9);
+      box-shadow: var(--shadow2);
+    }
+
+    .source-panel label {
+      display: block;
+      margin: 0 0 7px;
+      font-size: 13px;
+      font-weight: 900;
+      color: #26364f;
+      letter-spacing: -0.03em;
+    }
+
+    .source-panel input, .source-panel textarea, .source-panel select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 12px 13px;
+      outline: 0;
+      color: var(--ink);
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .source-panel textarea {
+      resize: vertical;
+      min-height: 86px;
+      line-height: 1.5;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .full-btn {
+      width: 100%;
+      height: 46px;
+      border-radius: 17px;
+      background: var(--blue);
+      color: white;
+      font-weight: 900;
+      margin-top: 2px;
+      box-shadow: 0 10px 24px rgba(23,105,224,.18);
+    }
+
+    .ghost-btn {
+      width: 100%;
+      height: 44px;
+      border-radius: 17px;
+      background: #f4f7fb;
+      color: #32425a;
+      border: 1px solid var(--line);
+      font-weight: 900;
+      margin-top: 8px;
+    }
+
+    .notice {
+      margin: 12px 0 0;
+      padding: 12px;
+      border-radius: 18px;
+      background: #f4f8ff;
+      color: #4a5f7d;
+      border: 1px solid #d9e8ff;
+      font-size: 12px;
+      line-height: 1.55;
+      letter-spacing: -0.025em;
+    }
+
+    .tabbar {
+      position: fixed;
+      left: 50%;
+      bottom: calc(14px + var(--safe-bottom));
+      transform: translateX(-50%);
+      width: min(calc(100% - 28px), 500px);
+      height: 66px;
+      border-radius: 24px;
+      padding: 7px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(255,255,255,.95);
+      box-shadow: 0 18px 45px rgba(30, 55, 91, .18);
+      backdrop-filter: blur(18px);
+      z-index: 50;
+    }
+
+    .tab {
+      border-radius: 18px;
+      background: transparent;
+      color: #8490a1;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .tab span {
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    .tab.active {
+      background: var(--blue2);
+      color: white;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(92px + var(--safe-bottom));
+      transform: translateX(-50%) translateY(14px);
+      background: rgba(17, 32, 54, .92);
+      color: white;
+      padding: 11px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+      z-index: 80;
+      max-width: calc(100% - 42px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .loading-line {
+      height: 4px;
+      width: 92px;
+      border-radius: 999px;
+      background: rgba(23,105,224,.12);
+      overflow: hidden;
+      margin: 14px auto 0;
+      display: none;
+    }
+
+    .loading-line.show {
+      display: block;
+    }
+
+    .loading-line::after {
+      content: "";
+      display: block;
+      height: 100%;
+      width: 42px;
+      border-radius: inherit;
+      background: var(--blue);
+      animation: loading 1s infinite ease-in-out;
+    }
+
+    @keyframes loading {
+      0% { transform: translateX(-46px); }
+      100% { transform: translateX(112px); }
+    }
+
+    .pull-indicator {
+      position: fixed;
+      left: 50%;
+      top: 14px;
+      transform: translateX(-50%) translateY(-60px);
+      background: rgba(15, 58, 117, .92);
+      color: white;
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: 12px;
+      font-weight: 900;
+      z-index: 90;
+      transition: .2s ease;
+      box-shadow: 0 8px 20px rgba(15,58,117,.2);
+    }
+
+    .pull-indicator.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .knowledge-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 14px 0 13px;
+      padding: 6px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.8);
+      border: 1px solid rgba(255,255,255,.92);
+      box-shadow: var(--shadow2);
+    }
+
+    .knowledge-tab {
+      height: 43px;
+      border-radius: 16px;
+      background: transparent;
+      color: #6f7b8d;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .knowledge-tab.active {
+      background: var(--blue2);
+      color: white;
+      box-shadow: 0 8px 18px rgba(15,58,117,.18);
+    }
+
+    .knowledge-group {
+      display: none;
+    }
+
+    .knowledge-group.active {
+      display: block;
+    }
+
+    .knowledge-card {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow2);
+      margin-bottom: 11px;
+    }
+
+    .knowledge-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 9px;
+    }
+
+    .knowledge-title h4 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.38;
+      letter-spacing: -0.045em;
+      color: #13243d;
+      word-break: keep-all;
+    }
+
+    .knowledge-card p {
+      margin: 0;
+      color: #3b485c;
+      font-size: 14px;
+      line-height: 1.62;
+      letter-spacing: -0.03em;
+      word-break: keep-all;
+    }
+
+    .knowledge-card ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: #4b596e;
+      font-size: 13px;
+      line-height: 1.62;
+      letter-spacing: -0.03em;
+      word-break: keep-all;
+    }
+
+    .knowledge-card li + li {
+      margin-top: 4px;
+    }
+
+    .tiny-note {
+      margin: 13px 0 0;
+      padding: 12px;
+      border-radius: 18px;
+      background: #f4f8ff;
+      color: #4a5f7d;
+      border: 1px solid #d9e8ff;
+      font-size: 12px;
+      line-height: 1.55;
+      letter-spacing: -0.025em;
+      word-break: keep-all;
+    }
+
+    .code-panel {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow2);
+      margin-bottom: 12px;
+    }
+
+    .code-panel h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: -0.04em;
+      color: #13243d;
+    }
+
+    .code-panel p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: -0.03em;
+      word-break: keep-all;
+    }
+
+    .code-box {
+      width: 100%;
+      min-height: 220px;
+      border: 1px solid var(--line);
+      background: #101827;
+      color: #e8eef9;
+      border-radius: 18px;
+      padding: 13px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      line-height: 1.55;
+      resize: vertical;
+      outline: 0;
+      white-space: pre;
+      overflow: auto;
+    }
+
+    .copy-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .copy-row button {
+      height: 42px;
+      border-radius: 15px;
+      font-size: 13px;
+      font-weight: 900;
+      border: 1px solid var(--line);
+      background: #f4f7fb;
+      color: #34435a;
+    }
+
+    .settings-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .setting-card {
+      padding: 15px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid rgba(255,255,255,.95);
+      box-shadow: var(--shadow2);
+    }
+
+    .setting-card h4 {
+      margin: 0 0 7px;
+      font-size: 15px;
+      letter-spacing: -0.035em;
+    }
+
+    .setting-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: -0.03em;
+      word-break: keep-all;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 11px;
+    }
+
+    .mini-grid button {
+      height: 42px;
+      border-radius: 15px;
+      font-size: 13px;
+      font-weight: 900;
+      border: 1px solid var(--line);
+      background: #f4f7fb;
+      color: #34435a;
+    }
+
+    .mini-grid button.danger {
+      background: #fff2f2;
+      color: var(--red);
+      border-color: #ffd6d6;
+    }
+
+    @media (max-width: 380px) {
+      .hero h2 { font-size: 23px; }
+      .stats { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="pull-indicator" id="pullIndicator">아래로 당기면 새로고침</div>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="app-icon"><img src="https://res.cloudinary.com/dpvcmcpc2/image/upload/v1776997573/ChatGPT_Image_2026%EB%85%84_4%EC%9B%94_24%EC%9D%BC_%EC%98%A4%EC%A0%84_11_25_54_o1v3jg.png" alt="인사서랍 아이콘"></div>
+        <div>
+          <h1>인사서랍</h1>
+          <p>HR 뉴스·노무 이슈 브리핑</p>
+        </div>
+      </div>
+      <button class="icon-btn" id="refreshBtn" title="새로고침">↻</button>
+    </header>
+
+    <main id="homePage" class="page active">
+      <section class="hero">
+        <div class="hero-kicker">📌 오늘 인사담당자가 볼 소식</div>
+        <h2>중요한 HR 이슈만<br>서랍처럼 정리해요.</h2>
+        <p>노동법·채용·조직문화 소식을 읽음/저장으로 구분하고, 실무 체크포인트까지 함께 남겨둘 수 있습니다.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" id="heroRefreshBtn">새 소식 불러오기</button>
+          <button class="secondary-btn" id="goAddBtn">직접 추가</button>
+        </div>
+      </section>
+
+      <div class="stats">
+        <div class="stat"><b id="unreadCount">0</b><span>안 읽은 소식</span></div>
+        <div class="stat"><b id="savedCount">0</b><span>저장한 소식</span></div>
+        <div class="stat"><b id="totalCount">0</b><span>전체 서랍</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <span>⌕</span>
+        <input id="searchInput" type="search" placeholder="근로기준법, 채용, 연차, 수습기간 검색" />
+      </div>
+
+      <div class="topic-row" aria-label="브리핑 항목">
+        <span class="topic-pill">노동법</span>
+        <span class="topic-pill">채용</span>
+        <span class="topic-pill">근태</span>
+        <span class="topic-pill">조직문화</span>
+        <span class="topic-pill">HR트렌드</span>
+        <span class="topic-pill">판례</span>
+      </div>
+
+      <div class="loading-line" id="loadingLine"></div>
+
+      <div class="section-head">
+        <div>
+          <h3>오늘의 브리핑</h3>
+          <p>모든 소식을 한 피드에 모으고, 항목은 카드 상단 배지로 구분합니다.</p>
+        </div>
+        <button id="markAllReadBtn">전체 읽음</button>
+      </div>
+      <section id="homeList"></section>
+    </main>
+
+    <main id="allPage" class="page">
+      <div class="section-head">
+        <div>
+          <h3>전체 소식</h3>
+          <p>읽음/저장 여부와 관계없이 전체를 확인합니다.</p>
+        </div>
+      </div>
+      <section id="allList"></section>
+    </main>
+
+    <main id="savedPage" class="page">
+      <div class="section-head">
+        <div>
+          <h3>저장함</h3>
+          <p>보고서·가이드북·블로그 소재로 남겨둔 소식입니다.</p>
+        </div>
+      </div>
+      <section id="savedList"></section>
+    </main>
+
+    <main id="knowledgePage" class="page">
+      <div class="section-head">
+        <div>
+          <h3>지식서랍</h3>
+          <p>채용과 인사 업무에서 자주 확인하는 기초 지식을 모았습니다.</p>
+        </div>
+      </div>
+
+      <div class="knowledge-tabs" id="knowledgeCategoryTabs">
+        <button class="knowledge-tab active" data-knowledge="recruit">채용 기초</button>
+        <button class="knowledge-tab" data-knowledge="hr">인사 기초</button>
+      </div>
+
+      <section class="knowledge-group active" data-knowledge-group="recruit">
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>채용공고는 “누가 봐도 같은 기준”으로 적기</h4>
+            <span class="badge">채용</span>
+          </div>
+          <p>지원자가 오해하지 않도록 직무, 고용형태, 근무조건, 전형절차, 제출서류를 명확히 적는 것이 기본입니다.</p>
+          <ul>
+            <li>직무명과 실제 수행업무를 분리해서 작성</li>
+            <li>필수요건과 우대요건을 구분</li>
+            <li>전형 단계와 예상 일정을 가능한 범위에서 안내</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>이력서 전달 시에는 “판단 포인트”를 같이 전달하기</h4>
+            <span class="badge">실무</span>
+          </div>
+          <p>부서장에게 이력서만 넘기면 검토 기준이 달라질 수 있어, 지원 포지션·핵심 경력·확인 필요사항을 함께 적어주는 편이 좋습니다.</p>
+          <ul>
+            <li>지원 포지션 / 경력연차 / 주요 경험 요약</li>
+            <li>면접에서 확인할 질문 후보</li>
+            <li>이력서상 공백, 잦은 이직 등 확인 필요사항</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>면접 일정은 후보자·면접관·장소를 한 번에 확정하기</h4>
+            <span class="badge">채용운영</span>
+          </div>
+          <p>면접 일정 조율은 시간만 맞추는 일이 아니라, 참석자·장소·온라인 링크·사전자료까지 맞춰야 완료됩니다.</p>
+          <ul>
+            <li>후보자 가능 일정 확인</li>
+            <li>면접관 캘린더 확인 및 초대</li>
+            <li>대면/비대면 여부, 장소, 링크, 연락처 확인</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>채용 개인정보는 필요한 만큼만 수집하기</h4>
+            <span class="badge high">주의</span>
+          </div>
+          <p>채용 전형에 필요한 최소한의 개인정보 중심으로 관리하고, 민감정보나 고유식별정보는 별도 근거 또는 동의 필요 여부를 확인해야 합니다.</p>
+          <ul>
+            <li>직무와 무관한 정보 요구 지양</li>
+            <li>지원자 자료 보관기간과 삭제 기준 확인</li>
+            <li>인재풀 보관 시 별도 동의 여부 확인</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>오퍼 이후에는 입사 전 체크리스트로 전환하기</h4>
+            <span class="badge">온보딩</span>
+          </div>
+          <p>합격 안내 후에는 입사서류, 장비, 계정, 메신저, 입사일 안내를 하나의 체크리스트로 관리하는 것이 누락을 줄입니다.</p>
+          <ul>
+            <li>오퍼 수락 회신 확인</li>
+            <li>입사서류 요청 및 수령</li>
+            <li>PC·계정·자리·가이드북 준비</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="knowledge-group" data-knowledge-group="hr">
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>근로계약서는 핵심 근로조건을 명확히 남기기</h4>
+            <span class="badge high">노동법</span>
+          </div>
+          <p>근로계약 체결 시 임금, 소정근로시간, 휴일, 연차 유급휴가 등 주요 근로조건을 명시해야 합니다.</p>
+          <ul>
+            <li>임금 구성항목·계산방법·지급방법 확인</li>
+            <li>소정근로시간과 휴일 확인</li>
+            <li>연차 유급휴가 안내 포함 여부 확인</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>연차는 입사연차와 출근율 기준을 같이 보기</h4>
+            <span class="badge">근태</span>
+          </div>
+          <p>연차는 계속근로기간과 출근율에 따라 달라지므로, 입사일·출근율·사용일수를 함께 관리해야 합니다.</p>
+          <ul>
+            <li>1년간 80% 이상 출근 시 15일 기준</li>
+            <li>1년 미만 또는 80% 미만 출근자는 1개월 개근 시 1일 기준</li>
+            <li>장기근속 가산휴가는 별도 확인</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>수습평가는 “느낌”보다 기록이 중요하기</h4>
+            <span class="badge">평가</span>
+          </div>
+          <p>수습기간 중 평가는 평가일, 평가자, 평가항목, 피드백 내역을 남겨야 향후 판단 근거가 명확해집니다.</p>
+          <ul>
+            <li>입사일 기준 평가 일정 관리</li>
+            <li>평가항목과 기준표 사용</li>
+            <li>중간 피드백과 개선 요청사항 기록</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>휴가·근태 기준은 신청 방식까지 통일하기</h4>
+            <span class="badge">근태</span>
+          </div>
+          <p>휴가 종류만 정리하는 것보다 신청 경로, 승인권자, 증빙 기준, 사용 단위를 같이 정리해야 운영 혼선을 줄일 수 있습니다.</p>
+          <ul>
+            <li>연차·반차·반반차·공가·특별휴가 구분</li>
+            <li>증빙 필요 여부와 제출 시점</li>
+            <li>근태 시스템 또는 신청 양식 통일</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>법정의무교육은 “대상·주기·증빙”을 같이 관리하기</h4>
+            <span class="badge high">교육</span>
+          </div>
+          <p>법정의무교육은 교육명만 외우는 것보다 우리 회사에 실제 적용되는 대상, 실시 주기, 이수 증빙, 미이수자 보충교육을 함께 관리해야 합니다.</p>
+          <ul>
+            <li>직장 내 성희롱 예방교육: 일반적으로 매년 1회 이상 실시 대상</li>
+            <li>직장 내 장애인 인식개선교육: 연 1회, 1시간 이상 실시 대상</li>
+            <li>산업안전보건교육, 개인정보보호교육, 퇴직연금교육 등은 업종·직무·제도 운영 여부에 따라 적용 여부 확인</li>
+            <li>직장 내 괴롭힘 예방교육은 자체 교육자료로 운영하는 경우가 많지만, 법정의무교육 여부는 별도 확인 필요</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>건강검진은 사무직·비사무직 주기를 구분하기</h4>
+            <span class="badge">복리후생</span>
+          </div>
+          <p>직장가입자 일반건강검진은 사무직과 비사무직의 검진 주기가 다르므로, 대상자 명단과 수검 여부를 정기적으로 확인하는 것이 좋습니다.</p>
+          <ul>
+            <li>사무직 근로자: 일반적으로 2년에 1회</li>
+            <li>비사무직 근로자: 일반적으로 매년 1회</li>
+            <li>입사자·퇴사자·휴직자 등 변동 인원은 대상 여부를 별도로 확인</li>
+            <li>특수건강검진은 유해인자 노출 업무 등 별도 기준에 따라 확인</li>
+          </ul>
+        </article>
+
+        <article class="knowledge-card">
+          <div class="knowledge-title">
+            <h4>퇴사 관리는 퇴사일 확정 후 계정·장비·정산으로 나누기</h4>
+            <span class="badge">퇴사</span>
+          </div>
+          <p>퇴사 처리는 사직서 수령, 인수인계, 장비 반납, 계정 회수, 급여·연차 정산을 분리해서 확인하는 것이 안전합니다.</p>
+          <ul>
+            <li>퇴사일과 마지막 근무일 확인</li>
+            <li>업무 인수인계 자료 확인</li>
+            <li>계정 회수와 장비 반납 체크</li>
+          </ul>
+        </article>
+      </section>
+
+      <p class="tiny-note">
+        ※ 이 지식서랍은 실무 체크용 요약입니다. 법령·판례·행정해석은 변경될 수 있으므로 실제 적용 전에는 최신 법령과 사내 규정을 함께 확인하세요.
+      </p>
+    </main>
+
+    <main id="addPage" class="page">
+      <div class="section-head">
+        <div>
+          <h3>소식 직접 추가</h3>
+          <p>뉴스 링크나 노무 이슈를 직접 저장할 수 있습니다.</p>
+        </div>
+      </div>
+
+      <section class="source-panel">
+        <label for="manualTitle">제목</label>
+        <input id="manualTitle" placeholder="예: 수습기간 종료 전 평가 기준 점검" />
+
+        <div class="form-grid">
+          <div>
+            <label for="manualSource">출처</label>
+            <input id="manualSource" placeholder="예: 고용노동부" />
+          </div>
+          <div>
+            <label for="manualCategory">카테고리</label>
+            <select id="manualCategory">
+              <option>노동법</option>
+              <option>채용</option>
+              <option>근태</option>
+              <option>조직문화</option>
+              <option>판례</option>
+              <option>기타</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="manualLink">링크</label>
+        <input id="manualLink" placeholder="https://..." />
+
+        <label for="manualSummary">핵심 요약</label>
+        <textarea id="manualSummary" placeholder="이 소식에서 확인해야 할 내용을 짧게 적어주세요."></textarea>
+
+        <label for="manualCheck">인사담당자 체크포인트</label>
+        <textarea id="manualCheck" placeholder="취업규칙, 안내문, 수습평가, 연차관리 등 확인해야 할 일을 적어주세요."></textarea>
+
+        <button class="full-btn" id="addManualBtn">인사서랍에 넣기</button>
+      </section>
+    </main>
+
+    <main id="settingsPage" class="page">
+      <div class="section-head">
+        <div>
+          <h3>설정</h3>
+          <p>자동 수집 검색어와 앱 데이터를 관리합니다.</p>
+        </div>
+      </div>
+
+      <div class="settings-list">
+        <section class="source-panel">
+          <label for="rssKeyword">뉴스 검색어</label>
+          <input id="rssKeyword" value="인사 OR 노무 OR 근로기준법 OR 채용 OR HR OR HR트렌드 OR HR테크 OR AI인사 OR 조직문화 OR 성과관리 OR 난임치료휴가 OR 육아휴직 OR 가족돌봄휴가 OR 유연근무" />
+          <button class="full-btn" id="saveKeywordBtn">검색어 저장</button>
+          <button class="ghost-btn" id="trendKeywordBtn">HR트렌드 소식만 보기</button>
+          <button class="ghost-btn" id="loadRssBtn">해당 검색어로 소식 불러오기</button>
+          <p class="notice">
+            이 버전은 단일 HTML 파일이라 별도 서버 없이 작동합니다. API_ENDPOINT를 연결하면 Google Apps Script가 매일 아침 자동으로 HR 뉴스를 수집합니다. 비워두면 기존처럼 HTML 단독 RSS 방식으로 작동합니다.
+          </p>
+        </section>
+
+        <section class="setting-card">
+          <h4>앱 아이콘</h4>
+          <p>보내주신 아이콘 이미지를 favicon, iPhone 홈화면 아이콘, 앱 상단 아이콘으로 연결해 두었습니다.</p>
+        </section>
+
+        <section class="setting-card">
+          <h4>데이터 관리</h4>
+          <p>읽음/저장/직접 추가한 소식은 이 브라우저의 localStorage에 저장됩니다.</p>
+          <div class="mini-grid">
+            <button id="restoreDefaultBtn">기본 카드 복원</button>
+            <button class="danger" id="clearDataBtn">전체 삭제</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <nav class="tabbar" aria-label="하단 메뉴">
+    <button class="tab active" data-page="homePage"><span>⌂</span>홈</button>
+    <button class="tab" data-page="allPage"><span>▤</span>소식</button>
+    <button class="tab" data-page="knowledgePage"><span>◇</span>지식</button>
+    <button class="tab" data-page="savedPage"><span>★</span>저장함</button>
+    <button class="tab" data-page="addPage"><span>＋</span>추가</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const ICON_URL = "https://res.cloudinary.com/dpvcmcpc2/image/upload/v1776997573/ChatGPT_Image_2026%EB%85%84_4%EC%9B%94_24%EC%9D%BC_%EC%98%A4%EC%A0%84_11_25_54_o1v3jg.png";
+
+    /*
+      3안: 자동 뉴스레터형 백엔드 연결
+      1) Google Apps Script 배포 URL을 아래 따옴표 안에 붙여 넣으세요.
+      2) 예: const API_ENDPOINT = "https://script.google.com/macros/s/배포ID/exec";
+      3) 비워두면 기존처럼 HTML 단독 RSS 방식으로 작동합니다.
+    */
+    const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbwaYeM_LNoFqafVIGwO1yLkWBwpPvXttXl2zorjL925rDu9S4dTfE_KTN0goJcNvSDC/exec";
+
+    const STORAGE_KEY = "insa_drawer_items_v1";
+    const KEYWORD_KEY = "insa_drawer_keyword_v1";
+
+    const defaultItems = [
+      {
+        id: "default-nanim-20260423",
+        title: "난임치료휴가 유급 기간 2일→4일로 확대",
+        source: "고용노동부 보도자료",
+        date: "2026-04-23T09:00:00+09:00",
+        category: "근태",
+        link: "https://www.moel.go.kr/news/enews/report/enewsView.do?news_seq=19295",
+        summary: "난임치료휴가기간 6일 중 유급기간이 기존 2일에서 4일로 확대됩니다. 우선지원 대상기업에 대한 정부 지원도 2일에서 4일로 늘어나는 내용입니다.",
+        check: "근태·휴가관리 관점에서 사내 휴가규정, 취업규칙, 입사자 가이드북, 휴가 신청 안내문에 ‘난임치료휴가 유급 4일’ 반영 필요 여부를 확인하세요.",
+        read: false,
+        saved: false,
+        manual: false
+      },
+      {
+        id: "default-hrtrend-1",
+        title: "HR트렌드: AI 활용, 직원경험, 성과관리 이슈를 함께 봐야 합니다",
+        source: "인사서랍 기본 브리핑",
+        date: new Date(Date.now() - 3600000).toISOString(),
+        category: "조직문화",
+        link: "",
+        summary: "최근 HR 이슈는 채용 자동화, AI 면접·평가 보조, 피플애널리틱스, 직원경험, 리더십 교육, 성과관리 방식 변화처럼 제도와 운영 방식이 함께 바뀌는 흐름으로 확인하는 것이 좋습니다.",
+        check: "우리 회사 채용·평가·교육·조직문화 운영에 적용 가능한 트렌드인지 확인하고, 단순 유행인지 실제 업무 개선 요소인지 구분하세요.",
+        read: false,
+        saved: false,
+        manual: false
+      },
+      {
+        id: "default-1",
+        title: "근로계약·수습기간 관련 이슈는 평가기록이 핵심입니다",
+        source: "인사서랍 기본 브리핑",
+        date: new Date().toISOString(),
+        category: "노동법",
+        link: "",
+        summary: "수습기간 중이라도 계약 종료나 본채용 거절은 객관적 평가 기준과 기록이 중요합니다. 입사일, 평가일, 평가자, 평가항목을 별도로 관리해 두는 편이 안전합니다.",
+        check: "수습평가 일정표, 평가자 지정, 피드백 기록, 통보일을 함께 확인하세요.",
+        read: false,
+        saved: false,
+        manual: false
+      },
+      {
+        id: "default-2",
+        title: "채용 단계에서는 개인정보 수집 범위와 보관 기준을 확인하세요",
+        source: "인사서랍 기본 브리핑",
+        date: new Date(Date.now() - 86400000).toISOString(),
+        category: "채용",
+        link: "",
+        summary: "이력서, 포트폴리오, 면접자료 등 채용 과정에서 받은 자료는 목적에 맞게 관리하고, 불필요한 개인정보를 과도하게 요구하지 않도록 점검해야 합니다.",
+        check: "채용공고, 입사지원서 양식, 지원자 자료 보관기간, 불합격자 자료 삭제 기준을 확인하세요.",
+        read: false,
+        saved: false,
+        manual: false
+      },
+      {
+        id: "default-3",
+        title: "연차·휴가 제도 변경 소식은 사내 안내문 수정 여부까지 봐야 합니다",
+        source: "인사서랍 기본 브리핑",
+        date: new Date(Date.now() - 172800000).toISOString(),
+        category: "근태",
+        link: "",
+        summary: "휴가 관련 정책이나 법령 이슈는 단순 확인에서 끝나지 않고 취업규칙, 사내 가이드북, 입사자 안내문에 반영할 필요가 있는지 함께 봐야 합니다.",
+        check: "휴가 종류, 신청 방식, 증빙 기준, 사내 안내문 최신화 여부를 확인하세요.",
+        read: false,
+        saved: false,
+        manual: false
+      }
+    ];
+
+    let state = {
+      items: [],
+      filter: "all",
+      search: "",
+      loading: false
+    };
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+    function saveManifest() {
+      const manifest = {
+        name: "인사서랍",
+        short_name: "인사서랍",
+        start_url: ".",
+        display: "standalone",
+        background_color: "#f4f7fb",
+        theme_color: "#0F3A75",
+        icons: [
+          { src: ICON_URL, sizes: "192x192", type: "image/png" },
+          { src: ICON_URL, sizes: "512x512", type: "image/png" }
+        ]
+      };
+      const blob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("link");
+      link.rel = "manifest";
+      link.href = url;
+      document.head.appendChild(link);
+    }
+
+    function loadItems() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        state.items = [...defaultItems];
+        saveItems();
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(raw);
+        state.items = Array.isArray(parsed) ? parsed : [...defaultItems];
+      } catch {
+        state.items = [...defaultItems];
+      }
+    }
+
+    function saveItems() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items));
+    }
+
+    function ensureDefaultCards() {
+      const existingIds = new Set(state.items.map(item => item.id));
+      const missing = defaultItems.filter(item => !existingIds.has(item.id));
+      if (missing.length) {
+        state.items = [...missing, ...state.items];
+        saveItems();
+      }
+    }
+
+    function getKeyword() {
+      return localStorage.getItem(KEYWORD_KEY) || "인사 OR 노무 OR 근로기준법 OR 채용 OR HR OR HR트렌드 OR HR테크 OR AI인사 OR 조직문화 OR 성과관리 OR 난임치료휴가 OR 육아휴직 OR 가족돌봄휴가 OR 유연근무";
+    }
+
+    function setKeyword(value) {
+      localStorage.setItem(KEYWORD_KEY, value.trim() || "인사 OR 노무 OR 근로기준법 OR 채용 OR HR OR HR트렌드 OR HR테크 OR AI인사 OR 조직문화 OR 성과관리 OR 난임치료휴가 OR 육아휴직 OR 가족돌봄휴가 OR 유연근무");
+    }
+
+    function toast(message) {
+      const el = $("#toast");
+      el.textContent = message;
+      el.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => el.classList.remove("show"), 1800);
+    }
+
+    function formatDate(value) {
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      return new Intl.DateTimeFormat("ko-KR", {
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(date);
+    }
+
+    function getImpact(item) {
+      const text = `${item.title} ${item.summary} ${item.category}`;
+      if (/개정|시행|법|근로기준법|판례|행정해석|고용노동부|해고|임금|연차|휴가|난임|괴롭힘|수습/.test(text)) {
+        return { label: "영향도 높음", className: "high" };
+      }
+      if (/채용|면접|온보딩|교육|조직문화|유연근무|평가/.test(text)) {
+        return { label: "영향도 중간", className: "mid" };
+      }
+      return { label: "참고", className: "low" };
+    }
+
+    function guessCategory(title, summary = "") {
+      const text = `${title} ${summary}`;
+      if (/채용|면접|입사|온보딩|공고|지원자/.test(text)) return "채용";
+      if (/난임|육아|출산|임신|가족돌봄|돌봄|일가정|일·가정|연차|휴가|근태|근로시간|출퇴근|유연근무/.test(text)) return "근태";
+      if (/판례|법원|부당해고|갱신기대권|행정해석/.test(text)) return "판례";
+      if (/HR트렌드|HR 테크|HR테크|AI HR|AI 인사|피플애널리틱스|People Analytics|인재관리|채용 트렌드|조직문화|리더십|교육|성과|평가|보상|직원경험|EX|온보딩|리텐션|몰입|HRD|업스킬링|리스킬링/.test(text)) return "조직문화";
+      if (/근로기준법|노무|임금|해고|징계|괴롭힘|고용노동부/.test(text)) return "노동법";
+      return "기타";
+    }
+
+    function makeCheckPoint(item) {
+      if (item.check) return item.check;
+      const category = item.category || "기타";
+      if (category === "노동법") return "취업규칙, 사내 규정, 안내문 변경 필요 여부를 확인하세요.";
+      if (category === "채용") return "채용공고, 지원자 안내 문구, 면접 운영 기준에 영향이 있는지 확인하세요.";
+      if (category === "근태") return "근태관리표, 휴가 신청 기준, 사내 가이드북 수정 여부를 확인하세요.";
+      if (category === "판례") return "유사 사례가 회사 운영 기준과 충돌하는지 확인하고 기록 관리 기준을 점검하세요.";
+      if (category === "조직문화") return "교육자료, 리더십 가이드, 사내 커뮤니케이션 방식에 반영할 수 있는지 확인하세요.";
+      return "우리 회사 업무 기준에 반영할 내용이 있는지 확인하세요.";
+    }
+
+    function filteredItems(items, includeRead = true) {
+      const query = state.search.trim().toLowerCase();
+
+      return items
+        .filter(item => includeRead ? true : !item.read)
+        .filter(item => {
+          if (!query) return true;
+          return `${item.title} ${item.source} ${item.summary} ${item.category}`.toLowerCase().includes(query);
+        })
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+    function renderCard(item) {
+      const impact = getImpact(item);
+      const link = item.link && item.link.trim() ? item.link : "#";
+      const openAttrs = item.link && item.link.trim() ? `href="${escapeHtml(link)}" target="_blank" rel="noopener"` : `href="#" data-empty-link="true"`;
+      return `
+        <article class="drawer-card ${item.read ? "" : "unread"}" data-id="${item.id}">
+          <div class="card-top">
+            <div class="badge-row">
+              <span class="badge ${impact.className}">${impact.label}</span>
+              <span class="badge">${escapeHtml(item.category || "기타")}</span>
+              ${item.read ? '<span class="badge">읽음</span>' : '<span class="badge low">신규</span>'}
+            </div>
+            <button class="save-btn ${item.saved ? "saved" : ""}" data-action="save" data-id="${item.id}" title="저장">${item.saved ? "★" : "☆"}</button>
+          </div>
+
+          <h4>${escapeHtml(item.title)}</h4>
+          <div class="meta">
+            <span>${escapeHtml(item.source || "출처 없음")}</span>
+            <span>·</span>
+            <span>${formatDate(item.date)}</span>
+          </div>
+
+          <p class="summary">${escapeHtml(item.summary || "요약이 없습니다.")}</p>
+
+          <div class="check-box">
+            <strong>인사담당자 체크포인트</strong>
+            <p>${escapeHtml(makeCheckPoint(item))}</p>
+          </div>
+
+          <div class="card-actions">
+            <button data-action="read" data-id="${item.id}">${item.read ? "안 읽음으로" : "읽음 처리"}</button>
+            <a class="open-link" ${openAttrs}>원문 보기</a>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderList(target, items, includeRead = true, emptyTitle = "표시할 소식이 없습니다.", emptyText = "새 소식을 불러오거나 직접 추가해 주세요.") {
+      const list = filteredItems(items, includeRead);
+      const el = $(target);
+
+      if (!list.length) {
+        el.innerHTML = `
+          <div class="empty">
+            <b>${emptyTitle}</b>
+            <span>${emptyText}</span>
+          </div>
+        `;
+        return;
+      }
+
+      el.innerHTML = list.map(renderCard).join("");
+    }
+
+    function render() {
+      const unread = state.items.filter(item => !item.read).length;
+      const saved = state.items.filter(item => item.saved).length;
+      $("#unreadCount").textContent = unread;
+      $("#savedCount").textContent = saved;
+      $("#totalCount").textContent = state.items.length;
+
+      renderList("#homeList", state.items, false, "안 읽은 소식이 없습니다.", "새 소식을 불러오거나 전체 소식에서 다시 확인해 주세요.");
+      renderList("#allList", state.items, true, "저장된 소식이 없습니다.", "새 소식을 불러오거나 직접 추가해 주세요.");
+      renderList("#savedList", state.items.filter(item => item.saved), true, "저장한 소식이 없습니다.", "중요한 소식의 별표를 눌러 저장해 주세요.");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function setLoading(value) {
+      state.loading = value;
+      $("#loadingLine").classList.toggle("show", value);
+      $("#refreshBtn").textContent = value ? "…" : "↻";
+    }
+
+
+    function isBackendReady() {
+      return Boolean(API_ENDPOINT && API_ENDPOINT.trim().startsWith("https://script.google.com/"));
+    }
+
+    function jsonpRequest(action, params = {}) {
+      return new Promise((resolve, reject) => {
+        if (!isBackendReady()) {
+          reject(new Error("API_ENDPOINT가 설정되지 않았습니다."));
+          return;
+        }
+
+        const callbackName = `insaDrawerCallback_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        const script = document.createElement("script");
+        const query = new URLSearchParams({
+          action,
+          callback: callbackName,
+          _: Date.now().toString(),
+          ...params
+        });
+
+        const cleanup = () => {
+          delete window[callbackName];
+          script.remove();
+        };
+
+        window[callbackName] = (data) => {
+          cleanup();
+          resolve(data);
+        };
+
+        script.onerror = () => {
+          cleanup();
+          reject(new Error("백엔드 요청에 실패했습니다."));
+        };
+
+        const separator = API_ENDPOINT.includes("?") ? "&" : "?";
+        script.src = `${API_ENDPOINT}${separator}${query.toString()}`;
+        document.body.appendChild(script);
+
+        setTimeout(() => {
+          if (window[callbackName]) {
+            cleanup();
+            reject(new Error("백엔드 응답 시간이 초과되었습니다."));
+          }
+        }, 15000);
+      });
+    }
+
+    function mergeIncomingItems(incoming = []) {
+      const existingMap = new Map(state.items.map(item => [item.id, item]));
+      const merged = [];
+
+      incoming.forEach(item => {
+        const old = existingMap.get(item.id);
+        merged.push({
+          ...item,
+          read: old ? old.read : false,
+          saved: old ? old.saved : false,
+          manual: false
+        });
+        existingMap.delete(item.id);
+      });
+
+      state.items = [...merged, ...Array.from(existingMap.values())]
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+      saveItems();
+      render();
+    }
+
+    async function fetchBackendList(options = {}) {
+      if (!isBackendReady()) return false;
+      if (!options.silent) setLoading(true);
+
+      try {
+        const data = await jsonpRequest("list");
+        if (!data || !data.ok) throw new Error(data?.message || "목록을 불러오지 못했습니다.");
+        mergeIncomingItems(data.items || []);
+        if (!options.silent) toast(`자동 수집 소식 ${data.items?.length || 0}개를 불러왔습니다.`);
+        return true;
+      } catch (error) {
+        console.error(error);
+        if (!options.silent) toast("자동 수집 서버 연결에 실패했습니다.");
+        return false;
+      } finally {
+        if (!options.silent) setLoading(false);
+      }
+    }
+
+    async function fetchBackendRefresh() {
+      if (!isBackendReady()) return false;
+
+      setLoading(true);
+      try {
+        const keyword = getKeyword();
+        const data = await jsonpRequest("refresh", { keyword });
+        if (!data || !data.ok) throw new Error(data?.message || "새 소식 수집에 실패했습니다.");
+        await fetchBackendList({ silent: true });
+        toast(`새 소식 ${data.added || 0}개가 자동서랍에 추가되었습니다.`);
+        return true;
+      } catch (error) {
+        console.error(error);
+        toast("자동 수집에 실패했습니다. 설정을 확인해 주세요.");
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function smartRefresh() {
+      if (isBackendReady()) {
+        return fetchBackendRefresh();
+      }
+      return fetchGoogleNewsRSS();
+    }
+
+    async function fetchGoogleNewsRSS() {
+      const keyword = getKeyword();
+      const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(keyword)}&hl=ko&gl=KR&ceid=KR:ko`;
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`;
+
+      setLoading(true);
+
+      try {
+        const response = await fetch(proxyUrl, { cache: "no-store" });
+        if (!response.ok) throw new Error("RSS 요청 실패");
+
+        const xmlText = await response.text();
+        const xml = new DOMParser().parseFromString(xmlText, "text/xml");
+        const entries = Array.from(xml.querySelectorAll("item")).slice(0, 20);
+
+        if (!entries.length) throw new Error("불러온 소식이 없습니다.");
+
+        const incoming = entries.map((entry) => {
+          const title = entry.querySelector("title")?.textContent?.trim() || "제목 없음";
+          const link = entry.querySelector("link")?.textContent?.trim() || "";
+          const pubDate = entry.querySelector("pubDate")?.textContent?.trim() || new Date().toISOString();
+          const source = entry.querySelector("source")?.textContent?.trim() || "Google 뉴스";
+          const rawDescription = entry.querySelector("description")?.textContent?.trim() || "";
+          const description = rawDescription.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+
+          const category = guessCategory(title, description);
+
+          return {
+            id: makeId(title + link),
+            title,
+            source,
+            date: new Date(pubDate).toISOString(),
+            category,
+            link,
+            summary: description || "기사 원문에서 상세 내용을 확인해 주세요.",
+            check: "",
+            read: false,
+            saved: false,
+            manual: false
+          };
+        });
+
+        const existingIds = new Set(state.items.map(item => item.id));
+        const fresh = incoming.filter(item => !existingIds.has(item.id));
+
+        if (!fresh.length) {
+          toast("이미 불러온 소식입니다.");
+          return;
+        }
+
+        state.items = [...fresh, ...state.items];
+        saveItems();
+        render();
+        toast(`${fresh.length}개 소식을 넣어두었습니다.`);
+      } catch (error) {
+        console.error(error);
+        toast("뉴스 불러오기에 실패했습니다. 직접 추가는 가능합니다.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function makeId(value) {
+      let hash = 0;
+      const text = String(value);
+      for (let i = 0; i < text.length; i++) {
+        hash = ((hash << 5) - hash) + text.charCodeAt(i);
+        hash |= 0;
+      }
+      return `item-${Math.abs(hash)}`;
+    }
+
+    function addManualItem() {
+      const title = $("#manualTitle").value.trim();
+      const source = $("#manualSource").value.trim() || "직접 추가";
+      const category = $("#manualCategory").value;
+      const link = $("#manualLink").value.trim();
+      const summary = $("#manualSummary").value.trim();
+      const check = $("#manualCheck").value.trim();
+
+      if (!title) {
+        toast("제목을 입력해 주세요.");
+        $("#manualTitle").focus();
+        return;
+      }
+
+      const item = {
+        id: makeId(title + link + Date.now()),
+        title,
+        source,
+        date: new Date().toISOString(),
+        category,
+        link,
+        summary: summary || "직접 추가한 소식입니다.",
+        check,
+        read: false,
+        saved: false,
+        manual: true
+      };
+
+      state.items = [item, ...state.items];
+      saveItems();
+      render();
+
+      $("#manualTitle").value = "";
+      $("#manualSource").value = "";
+      $("#manualLink").value = "";
+      $("#manualSummary").value = "";
+      $("#manualCheck").value = "";
+
+      toast("인사서랍에 넣었습니다.");
+      openPage("homePage");
+    }
+
+    function openPage(pageId) {
+      $$(".page").forEach(page => page.classList.toggle("active", page.id === pageId));
+      $$(".tab").forEach(tab => tab.classList.toggle("active", tab.dataset.page === pageId));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function handleCardClick(event) {
+      const actionButton = event.target.closest("[data-action]");
+      const emptyLink = event.target.closest("[data-empty-link]");
+
+      if (emptyLink) {
+        event.preventDefault();
+        toast("등록된 원문 링크가 없습니다.");
+        return;
+      }
+
+      if (!actionButton) return;
+
+      const id = actionButton.dataset.id;
+      const item = state.items.find(item => item.id === id);
+      if (!item) return;
+
+      if (actionButton.dataset.action === "save") {
+        item.saved = !item.saved;
+        saveItems();
+        render();
+        toast(item.saved ? "저장함에 넣었습니다." : "저장을 해제했습니다.");
+      }
+
+      if (actionButton.dataset.action === "read") {
+        item.read = !item.read;
+        saveItems();
+        render();
+        toast(item.read ? "읽음 처리했습니다." : "안 읽음으로 바꿨습니다.");
+      }
+    }
+
+    function bindEvents() {
+      $("#refreshBtn").addEventListener("click", smartRefresh);
+      $("#heroRefreshBtn").addEventListener("click", smartRefresh);
+      $("#loadRssBtn").addEventListener("click", smartRefresh);
+      $("#goAddBtn").addEventListener("click", () => openPage("addPage"));
+      $("#addManualBtn").addEventListener("click", addManualItem);
+
+      $("#saveKeywordBtn").addEventListener("click", () => {
+        setKeyword($("#rssKeyword").value);
+        toast("검색어를 저장했습니다.");
+      });
+
+      $("#trendKeywordBtn").addEventListener("click", () => {
+        const keyword = "HR트렌드 OR HR테크 OR AI인사 OR 피플애널리틱스 OR 조직문화 OR 성과관리 OR 채용트렌드 OR 직원경험";
+        $("#rssKeyword").value = keyword;
+        setKeyword(keyword);
+        state.search = "";
+        $("#searchInput").value = "";
+        smartRefresh();
+        openPage("homePage");
+      });
+
+      $("#restoreDefaultBtn").addEventListener("click", () => {
+        const existingIds = new Set(state.items.map(item => item.id));
+        const restore = defaultItems.filter(item => !existingIds.has(item.id));
+        state.items = [...restore, ...state.items];
+        saveItems();
+        render();
+        toast("기본 카드를 복원했습니다.");
+      });
+
+      $("#clearDataBtn").addEventListener("click", () => {
+        if (!confirm("인사서랍의 모든 소식을 삭제할까요?")) return;
+        state.items = [];
+        saveItems();
+        render();
+        toast("전체 삭제했습니다.");
+      });
+
+      $("#markAllReadBtn").addEventListener("click", () => {
+        state.items.forEach(item => item.read = true);
+        saveItems();
+        render();
+        toast("모두 읽음 처리했습니다.");
+      });
+
+      $("#searchInput").addEventListener("input", (event) => {
+        state.search = event.target.value;
+        render();
+      });
+
+      document.body.addEventListener("click", handleCardClick);
+
+      const knowledgeTabs = $("#knowledgeCategoryTabs");
+      if (knowledgeTabs) {
+        knowledgeTabs.addEventListener("click", (event) => {
+          const tab = event.target.closest(".knowledge-tab");
+          if (!tab) return;
+          const target = tab.dataset.knowledge;
+          $$(".knowledge-tab").forEach(button => button.classList.toggle("active", button === tab));
+          $$(".knowledge-group").forEach(group => group.classList.toggle("active", group.dataset.knowledgeGroup === target));
+        });
+      }
+
+      document.body.addEventListener("click", async (event) => {
+        const copyButton = event.target.closest("[data-copy-target]");
+        const selectButton = event.target.closest("[data-select-target]");
+
+        if (copyButton) {
+          const target = document.getElementById(copyButton.dataset.copyTarget);
+          if (!target) return;
+          try {
+            await navigator.clipboard.writeText(target.value);
+            toast("코드를 복사했습니다.");
+          } catch {
+            target.select();
+            document.execCommand("copy");
+            toast("코드를 복사했습니다.");
+          }
+        }
+
+        if (selectButton) {
+          const target = document.getElementById(selectButton.dataset.selectTarget);
+          if (!target) return;
+          target.focus();
+          target.select();
+          toast("전체 선택했습니다.");
+        }
+      });
+
+      $$(".tab").forEach(tab => {
+        tab.addEventListener("click", () => openPage(tab.dataset.page));
+      });
+
+      let startY = 0;
+      let pulling = false;
+
+      window.addEventListener("touchstart", (event) => {
+        if (window.scrollY > 0) return;
+        startY = event.touches[0].clientY;
+        pulling = true;
+      }, { passive: true });
+
+      window.addEventListener("touchmove", (event) => {
+        if (!pulling || window.scrollY > 0) return;
+        const delta = event.touches[0].clientY - startY;
+        $("#pullIndicator").classList.toggle("show", delta > 60);
+      }, { passive: true });
+
+      window.addEventListener("touchend", (event) => {
+        if (!pulling) return;
+        pulling = false;
+        const indicator = $("#pullIndicator");
+        const shouldRefresh = indicator.classList.contains("show");
+        indicator.classList.remove("show");
+        if (shouldRefresh) smartRefresh();
+      });
+    }
+
+    function init() {
+      saveManifest();
+      loadItems();
+      ensureDefaultCards();
+      $("#rssKeyword").value = getKeyword();
+      bindEvents();
+      render();
+      if (isBackendReady()) {
+        fetchBackendList({ silent: true });
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
